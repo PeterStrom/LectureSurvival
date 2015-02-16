@@ -1,0 +1,122 @@
+\documentclass[8pt]{beamer}
+\usepackage[T1]{fontenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{url}
+\usepackage{tikz}
+\usetheme{Hannover}
+\usecolortheme{rose}
+
+%=========================
+\begin{document}
+<<setup, include=FALSE>>=
+require(knitr, quietly = TRUE)
+require(tikzDevice, quietly = TRUE)
+require(bmBiostat, quietly = TRUE)
+#opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
+read_chunk('LectureSurvival.R')
+opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE, warning=FALSE)
+@
+\title[Survival]{Lecture: Survival}
+\author[]{Peter Ström}
+\maketitle
+%=========================Slide - Table of Contents
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents[currentsection]
+\end{frame}
+%=========================Slide
+% \begin{frame}{Background}
+% \begin{itemize}
+% \item The \textbf{knitr}\textbf{\emph{ }}package allows you to embed R code
+% and figures in \LaTeX{} documents
+% \begin{itemize}
+% \item It has functionality similar to Sweave but looks nicer and gives you
+% more control
+% \end{itemize}
+% \item If you already have Sweave working in \LyX{}, getting \textbf{knitr}
+% to work is trivial
+% \begin{enumerate}
+% \item Install the \textbf{knitr} package in \emph{R}
+% \item Read \url{http://yihui.name/knitr/demo/lyx/}
+% \end{enumerate}
+% \item If you use Sweave or \textbf{knitr} with Beamer in \LyX{}, you must
+% use the\emph{ FragileFrame} environment for the frames that contain
+% R code chunks. Let's see if \textbf{knitr} works with Beamer in this
+% small demo.
+% \end{itemize}
+% \end{frame}
+\section{Intro to survival data}
+\subsection{example rats}
+%=========================Slide "First test"
+\begin{frame}[fragile]{First Test}
+OK, let's get started with just some text:
+<<echo=FALSE,results='hide'>>=
+# some setup
+options(width=60) # make the printing fit on the page
+set.seed(1121) # make the results repeatable
+@
+\end{frame}
+%=========================Slide
+\begin{frame}[fragile]{First Test}
+\begin{block}{title of the bloc}
+bloc text
+\end{block}
+
+\begin{exampleblock}{title of the bloc}
+bloc text
+\end{exampleblock}
+
+
+\begin{alertblock}{title of the bloc}
+bloc text
+\end{alertblock}
+\end{frame}
+%=========================Slide
+\begin{frame}[fragile]{Introduction to survival data}
+<<inline, echo=FALSE, dev='tikz', fig.height=2, fig.width=2>>=
+library(ggplot2)
+qplot(1:10, 1:10) + labs(title = sprintf("$\\mathrm{d}\\mathbf{x}_{t}$"))
+tikzNode(opts='starburst, fill=green, draw=blue, very thick',
+content='Wow!')
+@
+
+\end{frame}
+\section{Kaplan-Mayer}
+%=========================Slide
+\begin{frame}[fragile]{Kaplan-Mayer}
+Text is nice but let's see what happens if we make a couple of plots
+in our chunk:
+<<boring-plots,fig.width=4,fig.height=4,out.width='.45\\linewidth'>>=
+par(las=1,mar=c(4,4,.1,.1)) # tick labels direction
+boxplot(x)
+hist(x,main='',col="blue",probability=TRUE)
+lines(density(x),col="red")
+@
+\end{frame}
+\section{Cox PH regression}
+%=========================Slide
+\begin{frame}{Cox PH regression}
+  \begin{minipage}{5cm}
+    Text
+  \end{minipage}
+  \hspace{.5cm}
+  \begin{minipage}{5cm}
+<<echo=FALSE,eval=TRUE,out.width='4cm',out.height='4cm'>>=
+plot(1:10)
+@
+  \end{minipage}
+\end{frame}
+%=========================Slide
+\begin{frame}
+  \begin{minipage}{5cm}
+    Text
+  \end{minipage}
+  \hspace{.5cm}
+  \begin{minipage}{5cm}
+<<echo=FALSE,eval=TRUE,out.width='4cm',out.height='4cm'>>=
+plot(1:10)
+@
+  \end{minipage}
+\end{frame}
+\end{document}
