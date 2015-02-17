@@ -16,6 +16,7 @@ require(bmBiostat, quietly = TRUE)
 #opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
 read_chunk('LectureSurvival.R')
 opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE, warning=FALSE)
+options(width=60) # make the printing fit on the page
 @
 \title[Survival]{Lecture: Survival}
 \author[]{Peter Ström}
@@ -47,15 +48,15 @@ opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='cen
 % \end{itemize}
 % \end{frame}
 \section{Intro to survival data}
-\subsection{example rats}
+\subsection{Example data HIV}
 %=========================Slide "First test"
-\begin{frame}[fragile]{First Test}
-OK, let's get started with just some text:
-<<echo=FALSE,results='hide'>>=
-# some setup
-options(width=60) # make the printing fit on the page
-set.seed(1121) # make the results repeatable
+\begin{frame}[fragile]{HIV data}
+OK, let's get started with some data:
+
+<<HIVdata, echo=TRUE>>=
+
 @
+
 \end{frame}
 %=========================Slide
 \begin{frame}[fragile]{First Test}
@@ -75,10 +76,10 @@ bloc text
 %=========================Slide
 \begin{frame}[fragile]{Introduction to survival data}
 <<inline, echo=FALSE, dev='tikz', fig.height=2, fig.width=2>>=
-library(ggplot2)
-qplot(1:10, 1:10) + labs(title = sprintf("$\\mathrm{d}\\mathbf{x}_{t}$"))
-tikzNode(opts='starburst, fill=green, draw=blue, very thick',
-content='Wow!')
+# library(ggplot2)
+# qplot(1:10, 1:10) + labs(title = sprintf("$\\mathrm{d}\\mathbf{x}_{t}$"))
+# tikzNode(opts='starburst, fill=green, draw=blue, very thick',
+# content='Wow!')
 @
 
 \end{frame}
