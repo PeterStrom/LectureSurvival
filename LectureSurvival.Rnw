@@ -2,9 +2,11 @@
 \usepackage[T1]{fontenc}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{enumerate items}[default]
 \usepackage{url}
 \usepackage{tikz}
-\usetheme{Hannover}
+%\usetheme{Hannover}
 \usecolortheme{rose}
 
 %=========================
@@ -13,9 +15,10 @@
 require(knitr, quietly = TRUE)
 require(tikzDevice, quietly = TRUE)
 require(bmBiostat, quietly = TRUE)
+require(Epi, quietly = TRUE)
 #opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
 read_chunk('LectureSurvival.R')
-opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE, warning=FALSE)
+opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE,warning=FALSE)
 options(width=60) # make the printing fit on the page
 @
 \title[Survival]{Lecture: Survival}
@@ -49,24 +52,33 @@ options(width=60) # make the printing fit on the page
 % \end{frame}
 \section{Intro to survival data}
 \subsection{Example data HIV}
-%=========================Slide "First test"
+%=========================Slide "HIVdata"
 \begin{frame}[fragile]{HIV data}
 OK, let's get started with some data:
 
-<<HIVdata, echo=TRUE>>=
+<<HIVdata, echo=TRUE, cache=TRUE>>=
 
 @
 
 \end{frame}
-%=========================Slide
+%=========================Slide 
 \begin{frame}[fragile]{First Test}
-\begin{block}{title of the bloc}
-bloc text
-\end{block}
 
-\begin{exampleblock}{title of the bloc}
-bloc text
-\end{exampleblock}
+<<SampleHIV, echo=FALSE, results='hide'>>=
+@
+  
+\begin{columns}
+\column{0.5\linewidth}
+<<Lexis2, echo=FALSE, fig.keep='first', message=FALSE, warning=FALSE, results='hide'>>=
+@
+
+\column{0.5\linewidth}
+    \begin{block}{}
+    \begin{itemize}
+        \item{ Hej }
+        \end{itemize}
+    \end{block}
+\end{columns}
 
 
 \begin{alertblock}{title of the bloc}
@@ -81,6 +93,14 @@ bloc text
 # tikzNode(opts='starburst, fill=green, draw=blue, very thick',
 # content='Wow!')
 @
+\begin{block}{title of the bloc}
+bloc text
+\end{block}
+
+
+\begin{exampleblock}{title of the bloc}
+bloc text
+\end{exampleblock}
 
 \end{frame}
 \section{Kaplan-Mayer}
