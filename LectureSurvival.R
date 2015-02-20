@@ -14,20 +14,23 @@ hiv <- read.table(
 
 head(hiv)
 
+## ----HIVdataShort --------------
+
+print(hiv[6:1, c("ID", "time", "drug", "censor")], row.names=FALSE)
 
 ## ----SampleHIV
-
 # as.Date(hiv$enddate,format='%m/%d/%Y')
 hiv$enddate <- as.character(hiv$enddate)
 hiv$entdate <- as.character(hiv$entdate)
 
-#Select a sample of the subjects
+# Select a sample of the subjects
 set.seed(4)
-hiv_s <- hiv[sample(1:dim(hiv)[1], 6),]
+hiv_s <- head(hiv)
+# hiv_s <- hiv[sample(1:dim(hiv)[1], 6),]
 Ltime <- cal.yr( hiv_s, format="%m/%d/%Y", wh=6:7 )
 
-
 ## ----Lexis1
+# Lexis over calender period
 Lex <- Lexis( entry = list( year=entdate ),
                exit = list( year=enddate),
                exit.status = censor,
@@ -41,8 +44,13 @@ abline(v=sort(Lex[Lex$censor==1,]$enddate)[3])
 abline(v=sort(Lex[Lex$censor==1,]$enddate)[4])
 
 ## ----Lexis2
-# Change origin to entdate
-Lex <- Lexis( exit = list( year=enddate-entdate),
+# Lexis over time since enter study
+
+# Lex <- Lexis( exit = list( year=enddate-entdate),
+#               exit.status = censor,
+#               data = Ltime )
+
+Lex <- Lexis( duration = list( months=time),
               exit.status = censor,
               data = Ltime )
 
