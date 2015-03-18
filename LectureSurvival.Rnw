@@ -6,21 +6,24 @@
 \setbeamertemplate{enumerate items}[default]
 \usepackage{url}
 \usepackage{tikz}
+\usepackage{amsmath} 
 %\usetheme{Warsaw}
 \usecolortheme{rose}
 
 %=========================
 \begin{document}
+%change to dev='tikz'
 <<setup, include=FALSE>>=
-# require(knitr, quietly = TRUE)
-require(tikzDevice, quietly = TRUE)
-# require(bmBiostat, quietly = TRUE)
-require(Epi, quietly = TRUE)
 # opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
 read_chunk('LectureSurvival.R')
-opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE,warning=FALSE)
+opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='pdf', fig.align='center', message=FALSE,warning=FALSE)
 options(width=60) # make the printing fit on the page
 @
+
+<<chunk0, echo=FALSE>>=
+
+@
+
 \title[Survival]{Lecture: Survival}
 \author[]{Peter Str\"{o}m}
 \maketitle
@@ -51,71 +54,25 @@ options(width=60) # make the printing fit on the page
 % \end{itemize}
 % \end{frame}
 \section{Intro to survival data}
-\subsection{What is survival data?}
 \begin{frame}{What is survival data?}
 
 \center Is it the same as binomial data?
 
 \end{frame}
 
-% \begin{frame}[fragile]{Censoring}
-% 
-% \end{frame}
-% 
-% \begin{frame}[fragile]{Survival function}
-% 
-% \end{frame}
-% 
-% \begin{frame}[fragile]{Hazard function}
-% 
-% \end{frame}
-% 
-% \begin{frame}[fragile]{Origin of time}
-% 
-% \end{frame}
-% 
+\begin{frame}{Censoring}
+<<HIVdata, echo=FALSE, cache=TRUE, results='hide'>>=
+@
+
+<<SampleHIV, echo=FALSE, results='hide'>>=
+@
+
+\end{frame}
+
 % \begin{frame}[fragile]{Data structure}
 % 
 % \end{frame}
 
-\subsection{Example data HIV}
-%=========================Slide "HIVdata"
-\begin{frame}[fragile]{HIV data}
-OK, let's get started with some data:
-
-<<HIVdata, echo=TRUE, cache=TRUE>>=
-
-@
-\begin{block}{Variables}
-\begin{itemize}
-\item time: follow-up time (months)
-\item censor: 1 = dead, 0 = censored
-\end{itemize}
-\end{block}
-\end{frame}
-%=========================Slide 
-\begin{frame}[fragile]
-
-<<SampleHIV, echo=FALSE, results='hide'>>=
-@
-  
-\begin{columns}
-\column{0.5\linewidth}
-<<Lexis2, echo=FALSE, fig.keep='first', message=FALSE, warning=FALSE, results='hide'>>=
-@
-
-\column{0.5\linewidth}
-<<HIVdataShort, echo=FALSE>>=
-@
-\end{columns}
-
-\begin{block}{Variables}
-\begin{itemize}
-\item time: follow-up time (months)
-\item censor: 1 = dead, 0 = censored
-\end{itemize}
-\end{block}
-\end{frame}
 %=========================Slide
 % \begin{frame}[fragile]{Introduction to survival data}
 % 
@@ -132,12 +89,256 @@ OK, let's get started with some data:
 % \end{alertblock}
 % 
 % \end{frame}
-\section{Kaplan-Mayer}
+
+\section{Kaplan-Meier}
+\subsection{The survivor function}
+\begin{frame}[fragile]{Survivor function, S(t)}
+\center The survivor function gives the probability of surviving beyond t.
+\begin{columns}
+\column{0.5\linewidth}
+
+<<Surv1, echo=FALSE, fig.height=4, fig.width=4>>=
+
+@
+
+\column{0.5\linewidth}
+\begin{exampleblock}{Example: No Censoring}
+How to estimate the probability of surviving beyond 5 months, S(t=5), when there is no censoring, i.e. we know the time of the event for all subjects?
+\end{exampleblock}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Survivor function, S(t)}
+\center The survivor function gives the probability of surviving beyond t.
+\begin{columns}
+\column{0.5\linewidth}
+<<Surv2, echo=FALSE, fig.height=4, fig.width=4>>=
+
+@
+\column{0.5\linewidth}
+\begin{exampleblock}{Example: A single right censoring time}
+How to estimate the probability of surviving beyond 5 months, S(t=5), when there is only a single censoring time at 8 months?
+\end{exampleblock}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Survivor function, S(t)}
+\center The survivor function gives the probability of surviving beyond t.
+\begin{columns}
+\column{0.5\linewidth}
+<<Surv3, echo=FALSE, fig.height=4, fig.width=4>>=
+
+@
+\column{0.5\linewidth}
+\begin{alertblock}{Warning: Censoring during follow-up}
+The main issue of survival analysis is how to deal with censoring! Has subject 6 died before or after 5 months?
+\end{alertblock}
+\end{columns}
+\end{frame}
+
+\subsection{Kaplan-Meier: An estimator of the survivor function}
+\begin{frame}{Kaplan-Meier: An estimator of S(t)}
+If a subject is censored before time t, then estimating S(t) simply as the observed proportion with event times greater than t can be biased - the censored subject may have died before time t without our knowledge.\newline
+
+\begin{columns}
+\column{0.5\linewidth}
+The solution is to look at each event time $t_1 < t_2 < ... < t_k$. Let $d_j$ and $n_j$ be the number who die and are \textit{at risk} of dying, respectively, at time $t_j$.
+
+\begin{block}{The Kaplan-Meier (KM) estimator}
+ 
+$\hat{S}(t) = \prod\limits_{j:t_j\leq t} \left(1 - \frac{d_j}{n_j}\right)$ 
+ 
+\end{block}
+\column{0.5\linewidth}
+\begin{block}{\textit{At risk}}
+\textit{At risk} means thay have not (yet) died nor have been censored. If one already died she is no longer at risk. And if one has been censored she is not considered at risk anymore since even if she will die, we can't observe it. 
+\end{block}
+
+
+\end{columns}
+\end{frame}
+
 %=========================Slide
-% \begin{frame}[fragile]{Kaplan-Mayer}
+% \begin{frame}[fragile]{Kaplan-Meier}
 % 
 % \end{frame}
+
+% 
+% \begin{frame}[fragile]{Hazard function}
+% 
+% \end{frame}
+% 
+\subsection{Example data HIV}
+%=========================Slide "HIVdata"
+\begin{frame}{HIV data}
+\begin{itemize}
+\item Question: A Health Maintenance Organization (HMO) wants to evaluate the survival time of HIV+ members using a follow-up study.
+\item Enter: Members diagnosed with HIV from Jan 1, 1989 to Dec 31, 1991 were enrolled into the study.
+\item Exit: Follow-up until death due to AIDS or AIDS-related complications, until end of study (Dec 31, 1995), or lost to follow-up.
+\item Baseline measures: Age and drug use.
+\end{itemize}
+\end{frame}
+
+%=========================Slide "HIVdata"
+\begin{frame}[fragile]{HIV data}
+OK, let's look at the structure of the data:
+
+<<HIVdata_show, echo=TRUE, cache=TRUE>>=
+
+@
+\begin{block}{Variables}
+\begin{itemize}
+\item time: follow-up time (months)
+\item censor: 1 = dead, 0 = censored
+\end{itemize}
+\end{block}
+\end{frame}
+%=========================Slide 
+\begin{frame}[fragile]
+
+\begin{columns}
+\column{0.5\linewidth}
+<<Lexis0, echo=FALSE, fig.keep='first', message=FALSE, warning=FALSE, results='hide'>>=
+@
+
+\column{0.5\linewidth}
+<<HIVdataShort, echo=FALSE>>=
+@
+\end{columns}
+
+\begin{block}{Variables}
+\begin{itemize}
+\item time: follow-up time (months)
+\item censor: 1 = dead, 0 = censored
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+
+<<Surv4, echo=FALSE, fig.width=5, fig.height=4>>=
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+<<Surv5, echo=FALSE, fig.width=5, fig.height=4>>=
+
+@
+
+\end{frame}
+
+\begin{frame}{Test for difference in survivor functions}
+
+\begin{columns}
+\column{0.5\linewidth}
+Proceed as we always do:
+ \begin{itemize}
+     \begin{enumerate}
+        \item \textbf{The null}. Assume there is no difference; we call this the null hypothesis (or simply the null).
+         \item \textbf{Find statistic}. Find a statistic (i.e. a function of the data) for which we know the distribution under the null (usually a chisq-distribution).
+         \item \textbf{Test}. See if the value for your statistic is unusually large for what could be expected under the null.
+      \end{enumerate}
+ \end{itemize}
+
+\column{0.5\linewidth}
+
+% \begin{block}{The \textbf{logrank} statistic}
+% $\frac{(O_1-E_1)^2}{E_1} + \frac{(O_2-E_2)^2}{E_2}$
+% \begin{itemize}
+% \item $O_1$: observed deaths in group 1. \textbf{Easy}.
+% \item $E_1$: expected deaths in group 1. \textbf{Not as easy.}
+% \end{itemize}
+% \end{block}
+% %The intuitive way to calculate $E_1$ would be 
+% For each event time we calculate the expected death in each group as the proportion of the subjects at %risk times the number of deaths. Then we sum up these expected deaths to get $E$ for each group.
+\begin{block}{The \textbf{logrank} statistic}
+The test statistic is the sum of $(O-E)^2$/E for each group, where O and E are the totals of the observed and expected events. 
+\end{block}
+%The intuitive way to calculate $E_1$ would be 
+For each event time we calculate the expected death in each group as the proportion of the subjects at risk times the number of deaths. Then we sum up these expected deaths to get $E$ for each group.
+\end{columns}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Test for difference in survivor functions - Example}
+
+\begin{columns}
+\column{0.5\linewidth}
+
+<<plotHIV, echo=FALSE, fig.height=4>>=
+
+@
+
+
+\begin{exampleblock}{Example: 6 subjects}
+\begin{itemize} 
+\item Drug 0:
+\end{itemize}
+$E= \frac{2}{5}1 + \frac{2}{4}1 + \frac{1}{2}1 + \frac{1}{1}1 = 2.4$
+\begin{itemize} 
+\item Drug 1:
+\end{itemize}
+$E= \frac{3}{5}1 + \frac{2}{4}1 + \frac{1}{2}1 + \frac{0}{1}1 = 1.6$
+\end{exampleblock}
+
+
+
+\column{0.5\linewidth}
+The logrank test statistic:
+$$\frac{(2-2.4)^2}{2.4} + \frac{(2-1.6)^2}{1.6} = 0.17$$
+
+Is 0.17 an extrem value under the null?
+
+<<plotChisq, echo=FALSE, fig.height=5>>=
+
+@
+
+\end{columns}
+
+\end{frame}
+
+
 \section{Cox PH regression}
+
+\begin{frame}{Hazard ratio (or risk ratio) from Cox regression}
+
+\begin{columns}
+\column{0.5\linewidth}
+\begin{math}
+X_1 =\begin{cases} 
+1 & (Male) \\ 
+0 &  (Female)
+\end{cases}
+\end{math}
+
+\column{0.5\linewidth}
+\begin{math}
+X_2 =\begin{cases} 
+1 & (Blue \ eyes) \\ 
+0 &  (Not \ blue \ eyes)
+\end{cases}
+\end{math}
+
+\end{columns}
+
+\begin{align*} 
+h(t|X_1=0, X_2=0) &=  h_0(t) \\ 
+h(t|X_1=1, X_2=0) &=  h_0(t)exp(\beta_1) \\ 
+h(t|X_1=0, X_2=1) &=  h_0(t)exp(\beta_2) \\ 
+h(t|X_1=1, X_2=1) &=  h_0(t)exp(\beta_1 + \beta_2) 
+\end{align*}
+
+Now we can obtain the Hazard ratio (risk ratio) for any combination of groups, e.g.:\\
+
+\center HR(Male vs Female)=$\frac{h_0(t)exp(\beta_1)}{h_0(t)}=exp(\beta_1)$
+
+\end{frame}
+
 %=========================Slide
 % \begin{frame}[fragile]{Cox PH regression}
 %   \begin{minipage}{5cm}
@@ -150,5 +351,10 @@ OK, let's get started with some data:
 % @
 %   \end{minipage}
 % \end{frame}
+
+% \begin{frame}[fragile]{Origin of time}
+% 
+% \end{frame}
+% 
 
 \end{document}
