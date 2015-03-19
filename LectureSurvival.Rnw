@@ -5,7 +5,7 @@
 \setbeamertemplate{itemize items}[default]
 \setbeamertemplate{enumerate items}[default]
 \usepackage{url}
-\usepackage{tikz}
+%\usepackage{tikz}
 \usepackage{amsmath} 
 %\usetheme{Warsaw}
 \usecolortheme{rose}
@@ -16,7 +16,7 @@
 <<setup, include=FALSE>>=
 # opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
 read_chunk('LectureSurvival.R')
-opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='pdf', fig.align='center', message=FALSE,warning=FALSE)
+opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE, warning=FALSE)
 options(width=60) # make the printing fit on the page
 @
 
@@ -265,7 +265,7 @@ For each event time we calculate the expected death in each group as the proport
 
 
 
-\begin{frame}[fragile]{Test for difference in survivor functions - Example}
+\begin{frame}[fragile]{Test for difference in survivor functions - Example 1}
 
 \begin{columns}
 \column{0.5\linewidth}
@@ -299,6 +299,13 @@ Is 0.17 an extrem value under the null?
 @
 
 \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Test for difference in survivor functions - Example 2}
+<<LogRankAgeCat>>=
+
+@
 
 \end{frame}
 

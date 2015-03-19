@@ -2,7 +2,7 @@
 # ls(pos = "package:bmBiostat")
 require(Epi, quietly = TRUE)
 require(survival, quietly = TRUE)
-require(tikzDevice, quietly = TRUE)
+# require(tikzDevice, quietly = TRUE)
 # require(bmBiostat, quietly = TRUE)
 
 
@@ -110,3 +110,7 @@ abline(v=0.1667)
 text(x=0.6,y=1.5,"p=0.8")
 abline(v=qchisq(.95, df=1))
 
+## ----LogRankAgeCat
+hiv$agecat <- cut(hiv$age, c(min(hiv$age), 29, 34, 39, 
+                             max(hiv$age)), include.lowest=T)
+survdiff(Surv(time=time, event=censor) ~ agecat, data=hiv)
