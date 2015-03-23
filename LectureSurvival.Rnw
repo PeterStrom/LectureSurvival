@@ -4,6 +4,8 @@
 \setcounter{tocdepth}{3}
 \setbeamertemplate{itemize items}[default]
 \setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{navigation symbols}{}
+%\setbeamerfont{subsection in toc}{size=\small}
 \usepackage{url}
 %\usepackage{tikz}
 \usepackage{amsmath} 
@@ -16,7 +18,7 @@
 <<setup, include=FALSE>>=
 # opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
 read_chunk('LectureSurvival.R')
-opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE, warning=FALSE)
+opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='pdf', fig.align='center', message=FALSE, warning=FALSE)
 options(width=60) # make the printing fit on the page
 @
 
@@ -230,6 +232,7 @@ OK, let's look at the structure of the data:
 
 \end{frame}
 
+\subsection{The logrank test}
 \begin{frame}{Test for difference in survivor functions}
 
 \begin{columns}
@@ -311,7 +314,11 @@ Is 0.17 an extrem value under the null?
 
 
 \section{Cox PH regression}
+\subsection{The hazard function}
 
+
+\subsection{Cox proportional hazards model
+}
 \begin{frame}{Hazard ratio (or risk ratio) from Cox regression}
 
 \begin{columns}
@@ -364,4 +371,7 @@ Now we can obtain the Hazard ratio (risk ratio) for any combination of groups, e
 % \end{frame}
 % 
 
+\subsection{The proprotional hazards assumtion}
+\begin{frame}[The proprotional hazards assumtion]
+\end{frame}
 \end{document}
