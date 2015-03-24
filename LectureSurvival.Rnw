@@ -317,8 +317,21 @@ Is 0.17 an extrem value under the null?
 \subsection{The hazard function}
 
 
-\subsection{Cox proportional hazards model
-}
+\subsection{Cox proportional hazards model}
+\begin{frame}{The hazard function}
+$$h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t | T \geq t)}{\Delta t}$$
+\end{frame}
+
+\begin{frame}{Relationship between survivor function and hazard function}
+$$S(t) = \text{exp}\left\{-\int_0^t h(u)du\right\}$$
+\end{frame}
+
+\begin{frame}{Model the hazard function - Cox regression}
+$$\text{log} \ h(t) = \text{log} \ h_0(t) + \beta x$$
+$$  \Leftrightarrow $$
+$$h(t) = h_0(t)\text{e}^{\beta x}$$
+\end{frame}
+
 \begin{frame}{Hazard ratio (or risk ratio) from Cox regression}
 
 \begin{columns}
@@ -371,7 +384,35 @@ Now we can obtain the Hazard ratio (risk ratio) for any combination of groups, e
 % \end{frame}
 % 
 
-\subsection{The proprotional hazards assumtion}
-\begin{frame}[The proprotional hazards assumtion]
+\begin{frame}[fragile]{Cox regression in R}
+<<Cox1, size='scriptsize'>>=
+
+@
+
+\end{frame}
+\begin{frame}[fragile]{Cox regression in R}
+<<Cox2, size='scriptsize'>>=
+
+@
+
+\end{frame}
+\begin{frame}[fragile]{Cox regression in R}
+<<Cox3, size='scriptsize', fig.height=4.5>>=
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{Comparison of nested models}
+Make a likelihood ratio (LR) test to see if there is an significant overall effect of \texttt{agecat}:
+<<Anova, size='scriptsize'>>=
+
+@
+
+\end{frame}
+
+
+\subsection{The proportional hazards assumtion}
+\begin{frame}{The proportional hazards assumtion}
 \end{frame}
 \end{document}

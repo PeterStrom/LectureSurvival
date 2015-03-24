@@ -114,3 +114,30 @@ abline(v=qchisq(.95, df=1))
 hiv$agecat <- cut(hiv$age, c(min(hiv$age), 29, 34, 39, 
                              max(hiv$age)), include.lowest=T)
 survdiff(Surv(time=time, event=censor) ~ agecat, data=hiv)
+
+## ----Cox1
+table(hiv$agecat)
+coxph(Surv(time=time, event=censor) ~ agecat, data=hiv)
+
+## ----Cox2
+hiv$drug <- as.factor(hiv$drug)
+coxph(Surv(time=time, event=censor) ~ drug + age, data=hiv)
+
+## ----Cox3
+cox <- coxph(Surv(time=time, event=censor) ~ agecat + drug, data=hiv)
+predict <- data.frame(drug=c(0,1), agecat=rep(levels(hiv$agecat)[1], 2))
+plot(survfit(cox, newdata=predict), col=c("red","blue"))
+legend("topright", legend=c('drug = 0', 'drug = 1'), lty=c(1,1), col=c("red","blue"))   
+
+## ----PlotHaz
+# haz <- survfit(Surv(time=time, event=censor) ~ 1, data=hiv)
+# haz <- data.frame(time=haz$time, event=haz$n.event, risk=haz$n.risk)
+# haz$timecat <- cut(haz$time, c(0, 10, 20, 30, 40, 50, 60))
+# split <- split(haz, haz$timecat)
+# haz <- sapply(split, function(x) mean(x$event)/mean(x$risk))
+# plot(seq(5,55, by=10), haz, type="l")
+
+## ----Anova
+model1 <- coxph(Surv(time=time, event=censor) ~ drug, data=hiv)
+model2 <- coxph(Surv(time=time, event=censor) ~ agecat + drug, data=hiv)
+anova(model2, model1)
