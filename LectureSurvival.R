@@ -140,4 +140,15 @@ legend("topright", legend=c('drug = 0', 'drug = 1'), lty=c(1,1), col=c("red","bl
 ## ----Anova
 model1 <- coxph(Surv(time=time, event=censor) ~ drug, data=hiv)
 model2 <- coxph(Surv(time=time, event=censor) ~ agecat + drug, data=hiv)
-anova(model2, model1)
+anova(model1, model2)
+
+## ----PropHaz1
+cox <- coxph(Surv(time=time, event=censor) ~ drug + age, data=hiv)
+par(mfrow=c(1,2))
+plot(cox.zph(cox))
+
+## ----ParMfrow
+par(mfrow=c(1,1))
+
+## ----PropHaz2
+cox.zph(cox)

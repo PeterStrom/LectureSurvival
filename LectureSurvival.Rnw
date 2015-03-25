@@ -18,7 +18,7 @@
 <<setup, include=FALSE>>=
 # opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize')
 read_chunk('LectureSurvival.R')
-opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='pdf', fig.align='center', message=FALSE, warning=FALSE)
+opts_chunk$set(comment=NA, fig.width=6, fig.height=6, dev='tikz', fig.align='center', message=FALSE, warning=FALSE)
 options(width=60) # make the printing fit on the page
 @
 
@@ -414,5 +414,36 @@ Make a likelihood ratio (LR) test to see if there is an significant overall effe
 
 \subsection{The proportional hazards assumtion}
 \begin{frame}{The proportional hazards assumtion}
+\center Cox regression a.k.a Cox Proportional Hazards regression
+\vspace{0.2in}
+$$\text{log} \ h(t, x) = \text{log} \ h_0(t) + \beta x$$
+$$  \Leftrightarrow $$
+$$h(t, x) = h_0(t)\text{e}^{\beta x}$$
+\vspace{0.2in}
+$$\text{HR}=\frac{h(t, x^*)}{h(t, x)}=\frac{h_0(t)\text{e}^{\beta x^*}}{h_0(t)\text{e}^{\beta x}}=\text{e}^{\beta (x^* - x)}$$
 \end{frame}
+
+\begin{frame}[fragile]{The proportional hazards assumtion - Graphically}
+\vspace{0.15in}
+Graphs of the Schoenfeld residuals help us detect if the parameters vary over the follow-up (i.e. non-PH).
+\vspace{0.1in}
+<<PropHaz1, size='scriptsize', fig.height=3.5>>=
+
+@
+
+
+\end{frame}
+
+\begin{frame}[fragile]{The proportional hazards assumtion - Test}
+Test if there is a correlation between Shoenfeld residuals and time: 
+<<PropHaz2>>=
+
+@
+
+<<ParMfrow, echo=FALSE>>=
+
+@
+
+\end{frame}
+
 \end{document}
