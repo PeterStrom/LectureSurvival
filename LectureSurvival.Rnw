@@ -388,19 +388,24 @@ Now we can obtain the Hazard ratio (risk ratio) for any combination of groups, e
 % 
 
 \begin{frame}[fragile]{Cox regression in R}
-<<Cox1, size='scriptsize'>>=
+<<Cox1, size='footnotesize'>>=
 
 @
 
 \end{frame}
 \begin{frame}[fragile]{Cox regression in R}
-<<Cox2, size='scriptsize'>>=
+<<Cox2, size='footnotesize'>>=
 
 @
 
 \end{frame}
 \begin{frame}[fragile]{Cox regression in R}
-<<Cox3, size='scriptsize', fig.height=4.5>>=
+<<Cox3a, size='footnotesize'>>=
+
+@
+
+
+<<Cox3b, echo=FALSE, fig.height=4.5>>=
 
 @
 
@@ -408,7 +413,7 @@ Now we can obtain the Hazard ratio (risk ratio) for any combination of groups, e
 
 \begin{frame}[fragile]{Comparison of nested models}
 Make a likelihood ratio (LR) test to see if there is an significant overall effect of \texttt{agecat}:
-<<Anova, size='scriptsize'>>=
+<<Anova, size='footnotesize'>>=
 
 @
 
@@ -430,7 +435,12 @@ $$\text{HR}=\frac{h(t, x^*)}{h(t, x)}=\frac{h_0(t)\text{e}^{\beta x^*}}{h_0(t)\t
 \vspace{0.15in}
 Graphs of the Schoenfeld residuals help us detect if the parameters vary over the follow-up (i.e. non-PH).
 \vspace{0.1in}
-<<PropHaz1, size='scriptsize', fig.height=3.5>>=
+
+<<PropHaz1a, eval=FALSE, size='footnotesize'>>=
+
+@
+
+<<PropHaz1b, size='footnotesize', fig.height=3.5, echo=FALSE>>=
 
 @
 
@@ -439,11 +449,12 @@ Graphs of the Schoenfeld residuals help us detect if the parameters vary over th
 
 \begin{frame}[fragile]{The proportional hazards assumtion - Test}
 Test if there is a correlation between Shoenfeld residuals and time: 
+
 <<PropHaz2>>=
 
 @
 
-<<ParMfrow, echo=FALSE>>=
+<<ParMfrow2, echo=FALSE>>=
 
 @
 
