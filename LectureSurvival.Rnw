@@ -62,11 +62,14 @@ options(width=60) # make the printing fit on the page
 
 \end{frame}
 
-\begin{frame}{Censoring}
+\begin{frame}[fragile]{Censoring}
 <<HIVdata, echo=FALSE, cache=TRUE, results='hide'>>=
 @
 
 <<SampleHIV, echo=FALSE, results='hide'>>=
+@
+
+<<Censor, echo=FALSE, fig.height=4>>=
 @
 
 \end{frame}

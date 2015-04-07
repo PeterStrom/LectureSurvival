@@ -50,7 +50,8 @@ Lex2 <- Lexis( duration = list( months=time),
               data = Ltime )
 
 ## ----Censor
-
+plot(Lex2[1:2, ], type="b",pch=c(NA,16)[Lex2$censor+1], ylim=c(0, 3), xlim=c(0, 10), 
+     ylab="Subject", xlab="Time", yaxt="n", xaxt="n", main="Visualizing survival data")
 
 ## ----Lexis0
 plot(Lex2, type="b",  pch=c(NA,16)[Lex2$censor+1], col=c("red", "blue")[Lex2$drug+1])
