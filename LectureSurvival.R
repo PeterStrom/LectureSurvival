@@ -117,6 +117,19 @@ hiv$agecat <- cut(hiv$age, c(min(hiv$age), 29, 34, 39,
                              max(hiv$age)), include.lowest=T)
 survdiff(Surv(time=time, event=censor) ~ agecat, data=hiv)
 
+## ----Haz0
+hiv_10 <- head(hiv, 10)
+Lex_10 <- Lexis( duration = list( months=time),
+               exit.status = censor,
+               data = hiv_10 )
+
+## ----Haz1
+plot(Lex_10, type="b",  pch=c(NA,16)[Lex_10$censor+1], lwd=2)
+abline(v=5)
+abline(v=10)
+abline(v=15)
+abline(v=20)
+
 ## ----Cox1
 table(hiv$agecat)
 coxph(Surv(time=time, event=censor) ~ agecat, data=hiv)
@@ -153,7 +166,10 @@ plot(cox.zph(cox))
 ## ----PropHaz1b
 cox <- coxph(Surv(time=time, event=censor) ~ drug + age, data=hiv)
 par(mfrow=c(1,2))
-plot(cox.zph(cox))
+plot(cox.zph(cox)[1])
+abline(h=cox$coef[1])
+plot(cox.zph(cox)[2])
+abline(h=cox$coef[2])
 
 ## ----ParMfrow2
 par(mfrow=c(1,1))

@@ -30,6 +30,8 @@ options(width=60) # make the printing fit on the page
 \author[]{Peter Str\"{o}m}
 \maketitle
 %=========================Slide - Table of Contents
+\section{Intro to survival data}
+
 \begin{frame}
 \frametitle{Table of Contents}
 \tableofcontents[currentsection]
@@ -55,7 +57,7 @@ options(width=60) # make the printing fit on the page
 % small demo.
 % \end{itemize}
 % \end{frame}
-\section{Intro to survival data}
+
 \begin{frame}{What is survival data?}
 
 \center Is it the same as binomial data?
@@ -96,6 +98,12 @@ options(width=60) # make the printing fit on the page
 % \end{frame}
 
 \section{Kaplan-Meier}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents[currentsection]
+\end{frame}
+
 \subsection{The survivor function}
 \begin{frame}[fragile]{Survivor function, S(t)}
 \center The survivor function gives the probability of surviving beyond t.
@@ -298,7 +306,7 @@ $E= \frac{3}{5}1 + \frac{2}{4}1 + \frac{1}{2}1 + \frac{0}{1}1 = 1.6$
 The logrank test statistic:
 $$\frac{(2-2.4)^2}{2.4} + \frac{(2-1.6)^2}{1.6} = 0.17$$
 
-Is 0.17 an extrem value under the null?
+Is 0.17 an extreme value under the null?
 
 <<plotChisq, echo=FALSE, fig.height=5>>=
 
@@ -317,17 +325,36 @@ Is 0.17 an extrem value under the null?
 
 
 \section{Cox PH regression}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents[currentsection]
+\end{frame}
+
 \subsection{The hazard function}
 
 
 \subsection{Cox proportional hazards model}
 \begin{frame}{The hazard function}
-$$h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t | T \geq t)}{\Delta t}$$
+$$h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t | T \geq t)}{\Delta t}$$
 \end{frame}
 
-\begin{frame}{Relationship between survivor function and hazard function}
-$$S(t) = \text{exp}\left\{-\int_0^t h(u)du\right\}$$
+\begin{frame}[fragile]{The hazard function}
+$$h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t | T \geq t)}{\Delta t}$$
+
+<<Haz0, echo=FALSE, results='hide'>>=
+
+@
+
+<<Haz1, echo=FALSE, fig.height=4>>=
+
+@
+
 \end{frame}
+
+% \begin{frame}{Relationship between survivor function and hazard function}
+% $$S(t) = \text{exp}\left\{-\int_0^t h(u)du\right\}$$
+% \end{frame}
 
 \begin{frame}{Model the hazard function - Cox regression}
 $$\text{log} \ h(t) = \text{log} \ h_0(t) + \beta x$$
@@ -448,7 +475,7 @@ Graphs of the Schoenfeld residuals help us detect if the parameters vary over th
 \end{frame}
 
 \begin{frame}[fragile]{The proportional hazards assumtion - Test}
-Test if there is a correlation between Shoenfeld residuals and time: 
+Test if there is a correlation between Schoenfeld residuals and time: 
 
 <<PropHaz2>>=
 
@@ -458,6 +485,16 @@ Test if there is a correlation between Shoenfeld residuals and time:
 
 @
 
+\end{frame}
+
+\begin{frame}{Summary}
+\begin{itemize}
+\item Start with a sample who are at risk of some event. Follow them until they either get the event or are censored.
+\item \textbf{The Survivor function} is the probability of surviving beyond time t, and is estimated with \textbf{Kaplan-Meier}.
+\item Do two or more groups have different Survivor function? Use the \textbf{Logrank test}!
+\item The hazard can be thought of as the probability that an event will occur at time t.
+\item Often we don't care about the hazard but only the \textbf{extra} proportion hazard in one group (e.g. males) compared to another group (e.g. females). Use \textbf{Cox regression}!
+\end{itemize}
 \end{frame}
 
 \end{document}
