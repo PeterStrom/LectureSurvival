@@ -471,7 +471,6 @@ Graphs of the Schoenfeld residuals help us detect if the parameters vary over th
 
 @
 
-
 \end{frame}
 
 \begin{frame}[fragile]{The proportional hazards assumtion - Test}

@@ -54,7 +54,7 @@ plot(Lex2[1:2, ], type="b",pch=c(NA,16)[Lex2$censor+1], ylim=c(0, 3), xlim=c(0, 
      ylab="Subject", xlab="Time", yaxt="n", xaxt="n", main="Visualizing survival data", lwd=2)
 
 ## ----Lexis0
-plot(Lex2, type="b",  pch=c(NA,16)[Lex2$censor+1], col=c("red", "blue")[Lex2$drug+1], lwd=2)
+plot(Lex2, type="b",  pch=c(NA,16)[Lex2$censor+1], col=c("red", "blue")[Lex2$drug+1], lwd=2, cex.lab=1.5)
 abline(v=sort(Lex2[Lex2$censor==1,]$enddate - Lex2[Lex2$censor==1,]$entdate)[1])
 abline(v=sort(Lex2[Lex2$censor==1,]$enddate - Lex2[Lex2$censor==1,]$entdate)[2])
 abline(v=sort(Lex2[Lex2$censor==1,]$enddate - Lex2[Lex2$censor==1,]$entdate)[3])
